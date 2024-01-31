@@ -7,6 +7,7 @@
 ### Зміст
 * [Опис проекту](#about)
 * [Прогрес](#progress)
+* [Результати](#results)
 
 ### <a name="about"></a> Опис проекту
 Ця робота присвячена прогнозуванню результатів вступної кампанії до закладів вищої освіти за допомогою моделей машинного навчання.
@@ -24,4 +25,7 @@
 - [X] [Випадковий ліс](https://github.com/Natanius18/diploma/blob/master/data_processing/random_forest.ipynb)
 - [ ] [Boosting](https://github.com/Natanius18/diploma/blob/master/data_processing/boosting.ipynb)
 - [ ] Метод головних компонент (PCA)
-- [ ] Створення додатка для передбачення 
+- [ ] Створення додатка для передбачення
+
+### <a name="results"></a> Результати
+![Порівняння результатів навчання моделей](tools/r2_and_mse.png?raw=true)
