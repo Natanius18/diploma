@@ -21,7 +21,7 @@
 - [X] [Побудова лінійних моделей машинного навчання](https://github.com/Natanius18/diploma/blob/master/data_processing/linear_models.ipynb)
 - [X] [Дерево рішень](https://github.com/Natanius18/diploma/blob/master/data_processing/decision_tree.ipynb)
   * візуалізація дерева за допомогою graphviz, [pdf](https://github.com/Natanius18/diploma/blob/master/data_processing/tree_structure.pdf)
-  * візуалізація дерева за допомогою drteeviz, [великий svg файл](https://drive.google.com/file/d/1GSPLAmdZpBqJ5vz0neGCUv9_eLoB4DX1/view?usp=sharing)
+  * візуалізація дерева за допомогою drteeviz, [великий svg файл](https://drive.google.com/file/d/1ziFkgu4TSQH-hWnhufSrnQgf5Qr_dsoF/view?usp=sharing)
 - [X] [Випадковий ліс](https://github.com/Natanius18/diploma/blob/master/data_processing/random_forest.ipynb)
 - [ ] [Boosting](https://github.com/Natanius18/diploma/blob/master/data_processing/boosting.ipynb)
 - [ ] Метод головних компонент (PCA)
