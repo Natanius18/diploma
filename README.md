@@ -23,7 +23,10 @@
   * візуалізація дерева за допомогою graphviz, [pdf](https://github.com/Natanius18/diploma/blob/master/data_processing/tree_structure.pdf)
   * візуалізація дерева за допомогою drteeviz, [великий svg файл](https://drive.google.com/file/d/1ziFkgu4TSQH-hWnhufSrnQgf5Qr_dsoF/view?usp=sharing)
 - [X] [Випадковий ліс](https://github.com/Natanius18/diploma/blob/master/data_processing/random_forest.ipynb)
-- [ ] [Boosting](https://github.com/Natanius18/diploma/blob/master/data_processing/boosting.ipynb)
+- [X] [Boosting](https://github.com/Natanius18/diploma/blob/master/data_processing/boosting.ipynb)
+- [X] Порівняння результатів кращих моделей різною кількістю фічей
+  * [Важливість фічей на основі глибокого дерева рішень](https://github.com/Natanius18/diploma/blob/master/data_processing/test_different_features_based_on_tree.ipynb)
+  * [Важливість фічей на основі GradientBoostingRegressor](https://github.com/Natanius18/diploma/blob/master/data_processing/test_different_features_based_on_gbr.ipynb)
 - [ ] Метод головних компонент (PCA)
 - [ ] Створення додатка для передбачення
 
