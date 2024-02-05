@@ -24,7 +24,7 @@
   * візуалізація дерева за допомогою drteeviz, [великий svg файл](https://drive.google.com/file/d/1ziFkgu4TSQH-hWnhufSrnQgf5Qr_dsoF/view?usp=sharing)
 - [X] [Випадковий ліс](https://github.com/Natanius18/diploma/blob/master/data_processing/random_forest.ipynb)
 - [X] [Boosting](https://github.com/Natanius18/diploma/blob/master/data_processing/boosting.ipynb)
-- [X] Порівняння результатів кращих моделей різною кількістю фічей
+- [X] Порівняння результатів кращих моделей з різною кількістю фічей
   * [Важливість фічей на основі глибокого дерева рішень](https://github.com/Natanius18/diploma/blob/master/data_processing/test_different_features_based_on_tree.ipynb)
   * [Важливість фічей на основі GradientBoostingRegressor](https://github.com/Natanius18/diploma/blob/master/data_processing/test_different_features_based_on_gbr.ipynb)
 - [X] [Метод головних компонент (PCA)](https://github.com/Natanius18/diploma/blob/master/data_processing/PCA.ipynb)
