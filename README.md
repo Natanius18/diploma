@@ -27,8 +27,9 @@
 - [X] Порівняння результатів кращих моделей різною кількістю фічей
   * [Важливість фічей на основі глибокого дерева рішень](https://github.com/Natanius18/diploma/blob/master/data_processing/test_different_features_based_on_tree.ipynb)
   * [Важливість фічей на основі GradientBoostingRegressor](https://github.com/Natanius18/diploma/blob/master/data_processing/test_different_features_based_on_gbr.ipynb)
-- [ ] [Метод головних компонент (PCA)](https://github.com/Natanius18/diploma/blob/master/data_processing/PCA.ipynb)
+- [X] [Метод головних компонент (PCA)](https://github.com/Natanius18/diploma/blob/master/data_processing/PCA.ipynb)
 - [ ] Створення додатка для передбачення
 
 ### <a name="results"></a> Результати
+Порівняння результатів навчання моделей:
 ![Порівняння результатів навчання моделей](tools/r2_and_mse.png?raw=true)
