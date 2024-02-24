@@ -27,6 +27,8 @@
 - [X] Порівняння результатів кращих моделей з різною кількістю фічей
   * [Важливість фічей на основі глибокого дерева рішень](https://github.com/Natanius18/diploma/blob/master/data_processing/test_different_features_based_on_tree.ipynb)
   * [Важливість фічей на основі GradientBoostingRegressor](https://github.com/Natanius18/diploma/blob/master/data_processing/test_different_features_based_on_gbr.ipynb)
+  * [GradientBoostingRegressor - підбір оптимальної моделі для різної кількості фічей](https://github.com/Natanius18/diploma/blob/master/data_processing/small_model.ipynb)
+  * [Різна кількість фічей з тих, які відомі до фінальних результатів широкого конкурсу](https://github.com/Natanius18/diploma/blob/master/data_processing/test_only_known_features.ipynb)
 - [X] [Метод головних компонент (PCA)](https://github.com/Natanius18/diploma/blob/master/data_processing/PCA.ipynb)
 - [ ] Створення додатка для передбачення
 
