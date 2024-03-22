@@ -1,24 +1,30 @@
 import pandas as pd
 
-main_table = pd.read_excel('main2023.xlsx')
-rows_count = len(main_table.index)
-print(rows_count)
+df = pd.read_csv('../readyDatasets/preprocessed_dataframe.csv')
+rows_count = len(df.index)
+print('preprocessed_dataframe', rows_count)
 
 
-additional_data = pd.read_excel('data2023.xlsx')
-rows_count = len(additional_data.index)
-print(rows_count)
+map_uni_code = pd.read_csv('../readyDatasets/map_uni_code_to_smoothed_means.csv', delimiter='$')
+rows_count = len(map_uni_code.index)
+print('map_uni_code_to_smoothed_means', rows_count)
 
+areas = pd.read_excel('../readyDatasets/areas.xlsx')  # has column uni_code and several more
+rows_count = len(areas.index)
+print('areas', rows_count)
 
-main_table["Назва закладу"] = main_table["Назва закладу"].str.upper()
-additional_data["Назва закладу"] = additional_data["Назва закладу"].str.upper()
+print('=========================')
 
+# here I want to map uni_code values to smooth_mean using map_uni_code
+areas_with_smoothed_means = areas.merge(map_uni_code, on=['uni_code'], how="inner")
+areas_with_smoothed_means.drop(columns=['uni_code'], inplace=True)
+areas_with_smoothed_means.rename(columns={'smooth_mean': 'uni_code'}, inplace=True)
+rows_count = len(areas_with_smoothed_means.index)
+print('areas_with_smoothed_means', rows_count)
 
-merged_data = main_table.merge(additional_data, on=["Назва закладу", "spec_num", "specialization", "form"], how="inner")
+merged_data = df.merge(areas_with_smoothed_means, on=['uni_code'], how="inner")
 
-
-merged_data.to_excel(r'data2023F.xlsx', index=False)
+merged_data.to_csv(r'../readyDatasets/ds_with_areas.csv', index=False)
 rows_count = len(merged_data.index)
 print(rows_count)
 print("Done")
-

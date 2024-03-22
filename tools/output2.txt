@@ -1,0 +1,6 @@
+http://127.0.0.1:5000/data?uni_code=28&spec_full=113 Прикладна математика&podano_zayav=123&max_val=35.0&super_val=616&kvota=0&total=35
+http://127.0.0.1:5000/data?uni_code=28&spec_full=113 Прикладна математика&podano_zayav=117&max_val=37.0&super_val=596&kvota=0&total=34
+http://127.0.0.1:5000/data?uni_code=28&spec_full=113 Прикладна математика&podano_zayav=104&max_val=37.0&super_val=645&kvota=0&total=37
+http://127.0.0.1:5000/data?uni_code=28&spec_full=113 Прикладна математика&podano_zayav=135&max_val=39.0&super_val=8856&kvota=0&total=39
+http://127.0.0.1:5000/data?uni_code=28&spec_full=113 Прикладна математика&podano_zayav=77&max_val=43.0&super_val=11143&kvota=0&total=34
+http://127.0.0.1:5000/data?uni_code=28&spec_full=113 Прикладна математика&podano_zayav=64&max_val=43.0&super_val=11328&kvota=0&total=22
