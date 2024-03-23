@@ -8,6 +8,8 @@ import joblib
 from sklearn.preprocessing import StandardScaler
 
 specialities = pd.read_csv('readyDatasets/map_spec_full_to_smoothed_means.csv', delimiter='$')
+universities = pd.read_csv('readyDatasets/universities.csv', delimiter='$')
+universities_list = universities['uni_name'].tolist()
 df = pd.read_csv('readyDatasets/preprocessed_dataframe.csv')
 map_spec_full = pd.read_csv('readyDatasets/map_spec_full_to_smoothed_means.csv', delimiter='$')
 map_uni_code = pd.read_csv('readyDatasets/map_uni_code_to_smoothed_means.csv', delimiter='$')
@@ -33,7 +35,7 @@ sc.fit_transform(x[best_features])
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 
-def dropdown_section():
+def dropdown_specialities_section():
     return html.Div([
         dcc.Dropdown(
             id='specialities-dropdown',
@@ -107,37 +109,46 @@ def prediction_output_section():
 def plots_table_section():
     return html.Table(
         id='plots-table',
-        style={'display': 'inline-block'},
         children=[
             html.Tr([
                 html.Td([
                     dcc.Graph(id='prediction-plot-total')
-                ], style={'width': '45%', 'height': '35%'}),
+                ], style={'width': '720px', 'height': '300px'}),
                 html.Td([
                     dcc.Graph(id='prediction-plot-podano')
-                ], style={'width': '45%', 'height': '35%'})
+                ], style={'width': '720px', 'height': '300px'})
+            ]),
+            html.Tr([
+                html.Td([
+                    dcc.Graph(id='prediction-plot-derzhzamovlennya')
+                ], style={'width': '720px', 'height': '300px'}),
+                html.Td([
+                    dcc.Graph(id='prediction-plot-superobshag')
+                ], style={'width': '720px', 'height': '300px'})
             ])
         ]
     )
 
 
 def input_for_plots():
-    return html.Div(style={'display': 'inline-block'}, children=[
-        dcc.Dropdown(
-            id='specialities-dropdown-2',
-            options=[{'label': spec, 'value': spec} for spec in specialities['spec_full']],
-            value=specialities['spec_full'].iloc[91],
-            style={'width': '500px', 'margin': 'auto', 'border-radius': '5px'},
-            placeholder='Оберіть спеціальність'
-        ),
-        dcc.Input(
-            id='uni_code-2',
-            type='number',
-            value=28,
-            style={'width': '500px', 'margin': 'auto', 'border-radius': '5px'},
-            placeholder='Код ЗВО'
-        ),
-    ])
+    return html.Div(style={'text-align': 'center'},
+                    children=[
+                        dcc.Dropdown(
+                            id='universities-dropdown',
+                            options=[{'label': uni, 'value': uni} for uni in universities_list],
+                            value=universities_list[47],
+                            style={'display': 'inline-block', 'width': '700px', 'margin': '10px',
+                                   'border-radius': '5px'},
+                            placeholder='Оберіть заклад вищої освіти'),
+                        dcc.Dropdown(
+                            id='specialities-dropdown-2',
+                            options=[{'label': spec, 'value': spec} for spec in specialities['spec_full']],
+                            value=specialities['spec_full'].iloc[91],
+                            style={'display': 'inline-block', 'width': '300px', 'margin': '10px',
+                                   'border-radius': '5px'},
+                            placeholder='Оберіть спеціальність'
+                        )
+                    ])
 
 
 app.layout = html.Div([
@@ -145,7 +156,7 @@ app.layout = html.Div([
     html.Div("Введіть необхідні дані та натисніть кнопку нижче, щоб отримати прогноз результатів вступної кампанії:",
              style={'text-align': 'center', 'margin': '10px'}),
     input_fields_section(),
-    dropdown_section(),
+    dropdown_specialities_section(),
     button_section(),
     prediction_output_section(),
     input_for_plots(),
@@ -189,35 +200,44 @@ def update_prediction(n_clicks, spec, uni_code, podano_zayav, max_val, super_val
     return prediction
 
 
+def create_plot(x_values, y_values, title, x_title, y_title):
+    plot_data = go.Scatter(x=x_values, y=y_values, mode='lines+markers', name=y_title)
+    layout = go.Layout(title=title, title_x=0.5, xaxis=dict(title=x_title), yaxis=dict(title=y_title))
+    fig = go.Figure(data=[plot_data], layout=layout)
+    return fig
+
+
 @app.callback(
     Output('prediction-plot-total', 'figure'),
     Output('prediction-plot-podano', 'figure'),
+    Output('prediction-plot-derzhzamovlennya', 'figure'),
+    Output('prediction-plot-superobshag', 'figure'),
     Input('specialities-dropdown-2', 'value'),
-    State('uni_code-2', 'value')
+    Input('universities-dropdown', 'value')
 )
-def generate_plots(speciality, uni_code):
-    filtered_df = df[(df['spec_full'] == speciality) & (df['uni_code'] == uni_code)]
+def generate_plots(speciality, university):
+    spec_full = map_spec_full[map_spec_full['spec_full'] == speciality].iloc[0, 1]
+    uni_code = int(university.split(' ')[0])
+    uni_code = map_uni_code[map_uni_code['uni_code'] == uni_code].iloc[0, 1]
+    filtered_df = df[(df['spec_full'] == spec_full) & (df['uni_code'] == uni_code)]
 
     year_values = [year_to_smooth_mean[smooth_mean] for smooth_mean in filtered_df['Рік']]
 
     total_values = filtered_df['УСЬОГО'].tolist()
     podano_values = filtered_df['Подано заяв на бюджет'].tolist()
 
-    plot_data_total = go.Scatter(x=year_values, y=total_values, mode='lines+markers', name='УСЬОГО')
+    derzhzamovlennya_values = filtered_df['Макс. обсяг держзамовлення'].tolist()
+    superobshag_values = filtered_df['Суперобсяг'].tolist()
 
-    layout_total = go.Layout(title='УСЬОГО по рокам',
-                             title_x=0.5,
-                             xaxis=dict(title='Рік'),
-                             yaxis=dict(title='УСЬОГО'))
-    fig_total = go.Figure(data=[plot_data_total], layout=layout_total)
+    fig_total = create_plot(year_values, total_values, 'Підсумкова кількість бюджетних місць по рокам', 'Рік', 'УСЬОГО')
+    fig_podano = create_plot(year_values, podano_values, 'Подано заяв на бюджет по рокам', 'Рік',
+                             'Подано заяв на бюджет')
+    fig_derzhzamovlennya = create_plot(year_values, derzhzamovlennya_values, 'Макс. обсяг держзамовлення по рокам',
+                                       'Рік',
+                                       'Макс. обсяг держзамовлення')
+    fig_superobshag = create_plot(year_values, superobshag_values, 'Суперобсяг по рокам', 'Рік', 'Суперобсяг')
 
-    plot_data_podano = go.Scatter(x=year_values, y=podano_values,
-                                  mode='lines+markers', name='Подано заяв на бюджет')
-    layout_podano = go.Layout(title='Подано заяв на бюджет по рокам', title_x=0.5, xaxis=dict(title='Рік'),
-                              yaxis=dict(title='Подано заяв на бюджет'))
-    fig_podano = go.Figure(data=[plot_data_podano], layout=layout_podano)
-
-    return fig_total, fig_podano
+    return fig_total, fig_podano, fig_derzhzamovlennya, fig_superobshag
 
 
 if __name__ == '__main__':
