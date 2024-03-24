@@ -35,52 +35,34 @@ sc.fit_transform(x[best_features])
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 
-def dropdown_specialities_section():
-    return html.Div([
-        dcc.Dropdown(
-            id='specialities-dropdown',
-            options=[{'label': spec, 'value': spec} for spec in specialities['spec_full']],
-            value=specialities['spec_full'].iloc[91],
-            style={'width': '500px', 'margin': 'auto', 'border-radius': '5px'},
-            placeholder='Оберіть спеціальність'),
-    ], style={'text-align': 'center', 'margin-top': '20px', 'justify-content': 'center'})
-
-
 def input_fields_section():
     style = {'display': 'inline-block', 'margin': '10px', 'width': '150px', 'vertical-align': 'middle'}
     return html.Div(
         [
             dbc.FormFloating(
                 [
-                    dbc.Input(id='podano_zayav', type='number', value=64, placeholder=''),
+                    dbc.Input(id='podano_zayav', type='number', placeholder=''),
                     dbc.Label("Подано заяв")
                 ],
                 style=style
             ),
             dbc.FormFloating(
                 [
-                    dbc.Input(id='uni_code', type='number', value=28, placeholder=''),
-                    dbc.Label("Код ЗВО")
-                ],
-                style=style
-            ),
-            dbc.FormFloating(
-                [
-                    dbc.Input(id='max_val', type='number', value=43, placeholder=''),
+                    dbc.Input(id='max_val', type='number', placeholder=''),
                     dbc.Label("Макс. обсяг держзамовлення")
                 ],
                 style={'display': 'inline-block', 'margin': '8px', 'width': '250px', 'vertical-align': 'middle'}
             ),
             dbc.FormFloating(
                 [
-                    dbc.Input(id='super_val', type='number', value=11328, placeholder=''),
+                    dbc.Input(id='super_val', type='number', placeholder=''),
                     dbc.Label("Суперобсяг")
                 ],
                 style=style
             ),
             dbc.FormFloating(
                 [
-                    dbc.Input(id='kvota', type='number', value=0, placeholder=''),
+                    dbc.Input(id='kvota', type='number', placeholder=''),
                     dbc.Label("Квота-1")
                 ],
                 style=style
@@ -101,7 +83,7 @@ def prediction_output_section():
         id='prediction-output-container',
         style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center'},
         children=[
-            html.Div(id='prediction-output')
+            html.Div("✨", id='prediction-output')
         ]
     )
 
@@ -130,25 +112,23 @@ def plots_table_section():
     )
 
 
-def input_for_plots():
-    return html.Div(style={'text-align': 'center'},
-                    children=[
-                        dcc.Dropdown(
-                            id='universities-dropdown',
-                            options=[{'label': uni, 'value': uni} for uni in universities_list],
-                            value=universities_list[47],
-                            style={'display': 'inline-block', 'width': '700px', 'margin': '10px',
-                                   'border-radius': '5px'},
-                            placeholder='Оберіть заклад вищої освіти'),
-                        dcc.Dropdown(
-                            id='specialities-dropdown-2',
-                            options=[{'label': spec, 'value': spec} for spec in specialities['spec_full']],
-                            value=specialities['spec_full'].iloc[91],
-                            style={'display': 'inline-block', 'width': '300px', 'margin': '10px',
-                                   'border-radius': '5px'},
-                            placeholder='Оберіть спеціальність'
-                        )
-                    ])
+def drop_downs(dropdown_spec_id, dropdown_uni_id,
+               uni_value=universities_list[47],
+               spec_value=specialities['spec_full'].iloc[91]):
+    return html.Div([
+        html.Div([
+            dcc.Dropdown(id=dropdown_uni_id,
+                         options=[{'label': uni, 'value': uni} for uni in universities_list],
+                         value=uni_value,
+                         style={'width': '700px', 'margin': '0px 10px', 'border-radius': '5px'},
+                         placeholder='Оберіть заклад вищої освіти'),
+            dcc.Dropdown(id=dropdown_spec_id,
+                         options=[{'label': spec, 'value': spec} for spec in specialities['spec_full']],
+                         value=spec_value,
+                         style={'width': '300px', 'margin': '0px 10px', 'border-radius': '5px'},
+                         placeholder='Оберіть спеціальність')
+        ], style={'display': 'flex', 'justify-content': 'center'})
+    ], style={'text-align': 'center', 'margin-top': '20px'})
 
 
 app.layout = html.Div([
@@ -156,29 +136,53 @@ app.layout = html.Div([
     html.Div("Введіть необхідні дані та натисніть кнопку нижче, щоб отримати прогноз результатів вступної кампанії:",
              style={'text-align': 'center', 'margin': '10px'}),
     input_fields_section(),
-    dropdown_specialities_section(),
+    drop_downs('specialities-dropdown', 'universities-dropdown', None, None),
     button_section(),
     prediction_output_section(),
-    input_for_plots(),
-    plots_table_section()
+    html.Div(
+        style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center'},
+        children=[
+            html.Div(id='prediction-output-2', hidden=True)
+        ]
+    ),
+    html.Div([dbc.Button("Подивитися статистику за минулі роки",
+                         id="open-button",
+                         n_clicks=0,
+                         style={'text-align': 'center', 'margin': '20px'})],
+             style={'text-align': 'center', 'justify-content': 'center', 'margin-bottom': '10px'}),
+    dbc.Collapse(
+        [
+            html.Div("Оберіть назву закладу та спеціальність, для яких бажаєте отримати статистику:",
+                     style={'text-align': 'center', 'padding-top': '20px'}),
+            drop_downs('specialities-dropdown-2', 'universities-dropdown-2'),
+            plots_table_section()
+        ],
+        id="collapse",
+        is_open=False)
 ])
 
 
 @app.callback(
     Output('prediction-output', 'children'),
+    Output('prediction-output-2', 'hidden'),
+    Output('prediction-output-2', 'children'),
     Input('predict-button', 'n_clicks'),
     State('specialities-dropdown', 'value'),
-    State('uni_code', 'value'),
+    State('universities-dropdown', 'value'),
     State('podano_zayav', 'value'),
     State('max_val', 'value'),
     State('super_val', 'value'),
-    State('kvota', 'value'))
+    State('kvota', 'value')
+)
 def update_prediction(n_clicks, spec, uni_code, podano_zayav, max_val, super_val, kvota):
     if n_clicks is None:
-        return ''
+        return '✨', True, ''
 
     spec_full = map_spec_full[map_spec_full['spec_full'] == spec].iloc[0, 1]
+
+    uni_code = int(uni_code.split(' ')[0])
     uni_code = map_uni_code[map_uni_code['uni_code'] == uni_code].iloc[0, 1]
+
     authority = map_uni_to_authority[map_uni_to_authority['uni_code'] == uni_code].iloc[0, 1]
 
     features = {
@@ -194,15 +198,24 @@ def update_prediction(n_clicks, spec, uni_code, podano_zayav, max_val, super_val
     input_info = pd.DataFrame(data=features)
     test_data = sc.transform(input_info)
 
-    res = loaded_model.predict(test_data)[0]
-    prediction = str(int(res))
+    res = int(loaded_model.predict(test_data)[0])
+    prediction = str(res)
 
-    return prediction
+    if prediction.endswith('11'):
+        message = f"З урахуванням наданих даних, модель передбачає, що з високою ймовірністю буде виділено {prediction} бюджетних місць"
+    elif prediction.endswith('1'):
+        message = f"З урахуванням наданих даних, модель передбачає, що з високою ймовірністю буде виділено {prediction} бюджетне місце"
+    elif prediction.endswith(('2', '3', '4')):
+        message = f"З урахуванням наданих даних, модель передбачає, що з високою ймовірністю буде виділено {prediction} бюджетні місця"
+    else:
+        message = f"З урахуванням наданих даних, модель передбачає, що з високою ймовірністю буде виділено {prediction} бюджетних місць"
+
+    return prediction, False, message
 
 
 def create_plot(x_values, y_values, title, x_title, y_title):
     plot_data = go.Scatter(x=x_values, y=y_values, mode='lines+markers', name=y_title)
-    layout = go.Layout(title=title, title_x=0.5, xaxis=dict(title=x_title), yaxis=dict(title=y_title))
+    layout = go.Layout(title=title, title_x=0.5, title_y=0.85, xaxis=dict(title=x_title), yaxis=dict(title=y_title), paper_bgcolor='rgba(0,0,0,0)')
     fig = go.Figure(data=[plot_data], layout=layout)
     return fig
 
@@ -213,7 +226,7 @@ def create_plot(x_values, y_values, title, x_title, y_title):
     Output('prediction-plot-derzhzamovlennya', 'figure'),
     Output('prediction-plot-superobshag', 'figure'),
     Input('specialities-dropdown-2', 'value'),
-    Input('universities-dropdown', 'value')
+    Input('universities-dropdown-2', 'value')
 )
 def generate_plots(speciality, university):
     spec_full = map_spec_full[map_spec_full['spec_full'] == speciality].iloc[0, 1]
@@ -225,7 +238,6 @@ def generate_plots(speciality, university):
 
     total_values = filtered_df['УСЬОГО'].tolist()
     podano_values = filtered_df['Подано заяв на бюджет'].tolist()
-
     derzhzamovlennya_values = filtered_df['Макс. обсяг держзамовлення'].tolist()
     superobshag_values = filtered_df['Суперобсяг'].tolist()
 
@@ -233,12 +245,28 @@ def generate_plots(speciality, university):
     fig_podano = create_plot(year_values, podano_values, 'Подано заяв на бюджет по рокам', 'Рік',
                              'Подано заяв на бюджет')
     fig_derzhzamovlennya = create_plot(year_values, derzhzamovlennya_values, 'Макс. обсяг держзамовлення по рокам',
-                                       'Рік',
-                                       'Макс. обсяг держзамовлення')
+                                       'Рік', 'Макс. обсяг держзамовлення')
     fig_superobshag = create_plot(year_values, superobshag_values, 'Суперобсяг по рокам', 'Рік', 'Суперобсяг')
 
     return fig_total, fig_podano, fig_derzhzamovlennya, fig_superobshag
 
 
+@app.callback(
+    Output("collapse", "is_open", allow_duplicate=True),
+    Output("open-button", "children"),
+    Input("open-button", "n_clicks"),
+    State("collapse", "is_open"),
+    prevent_initial_call=True
+)
+def toggle_collapse(n_clicks, is_open):
+    if n_clicks:
+        is_open = not is_open
+    if n_clicks % 2 == 1:
+        message = "Приховати статистику"
+    else:
+        message = "Подивитися статистику за минулі роки"
+    return is_open, message
+
+
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server()

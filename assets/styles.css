@@ -29,9 +29,21 @@
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    background-color: #FBEBC7;
-    font-size: 50px;
-    color: #2EE59D;
+    background-color: #2EE59D;
+    font-size: 55px;
+    font-weight: bold;
+    -webkit-text-stroke: 1px black;
+    color: white;
     text-align: center;
     line-height: 100px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#collapse {
+    background-color: rgba(0, 0, 255, 0.05);
+    border-radius: 70px;
+}
+
+label {
+    color: darkgrey;
 }
