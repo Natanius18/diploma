@@ -8,8 +8,9 @@ import joblib
 from sklearn.preprocessing import StandardScaler
 
 specialities = pd.read_csv('readyDatasets/map_spec_full_to_smoothed_means.csv', delimiter='$')
-universities = pd.read_csv('readyDatasets/universities.csv', delimiter='$')
+universities = pd.read_csv('readyDatasets/universities.csv')
 universities_list = universities['uni_name'].tolist()
+
 df = pd.read_csv('readyDatasets/preprocessed_dataframe.csv')
 map_spec_full = pd.read_csv('readyDatasets/map_spec_full_to_smoothed_means.csv', delimiter='$')
 map_uni_code = pd.read_csv('readyDatasets/map_uni_code_to_smoothed_means.csv', delimiter='$')
