@@ -89,25 +89,23 @@ def prediction_output_section():
     )
 
 
+def plot_in_cell(plot_id):
+    return html.Td([
+        dcc.Graph(id=plot_id)
+    ], style={'width': '720px', 'height': '300px'})
+
+
 def plots_table_section():
     return html.Table(
         id='plots-table',
         children=[
             html.Tr([
-                html.Td([
-                    dcc.Graph(id='prediction-plot-total')
-                ], style={'width': '720px', 'height': '300px'}),
-                html.Td([
-                    dcc.Graph(id='prediction-plot-podano')
-                ], style={'width': '720px', 'height': '300px'})
+                plot_in_cell('prediction-plot-total'),
+                plot_in_cell('prediction-plot-podano')
             ]),
             html.Tr([
-                html.Td([
-                    dcc.Graph(id='prediction-plot-derzhzamovlennya')
-                ], style={'width': '720px', 'height': '300px'}),
-                html.Td([
-                    dcc.Graph(id='prediction-plot-superobshag')
-                ], style={'width': '720px', 'height': '300px'})
+                plot_in_cell('prediction-plot-derzhzamovlennya'),
+                plot_in_cell('prediction-plot-superobshag')
             ])
         ]
     )
@@ -202,7 +200,7 @@ def update_prediction(n_clicks, spec, uni_code, podano_zayav, max_val, super_val
     res = int(loaded_model.predict(test_data)[0])
     prediction = str(res)
 
-    if prediction.endswith('11'):
+    if prediction.endswith(('11', '12', '13', '14')):
         message = f"З урахуванням наданих даних, модель передбачає, що з високою ймовірністю буде виділено {prediction} бюджетних місць"
     elif prediction.endswith('1'):
         message = f"З урахуванням наданих даних, модель передбачає, що з високою ймовірністю буде виділено {prediction} бюджетне місце"
