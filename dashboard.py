@@ -73,20 +73,24 @@ def input_fields_section():
     )
 
 
-def button_section():
+def button_predict():
     return html.Div([
         html.Button('Спрогнозувати', id='predict-button', className='floating-button')],
         style={'text-align': 'center', 'justify-content': 'center', 'margin-bottom': '10px'})
 
 
 def prediction_output_section():
-    return html.Div(
-        id='prediction-output-container',
-        style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center'},
-        children=[
-            html.Div("✨", id='prediction-output')
-        ]
-    )
+    return html.Div([
+        html.Div(
+            id='prediction-output-container',
+            style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center'},
+            children=[html.Div("✨", id='prediction-output')]
+        ),
+        html.Div(
+            style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center'},
+            children=[html.Div(id='prediction-output-2', hidden=True)]
+        )
+    ])
 
 
 def plot_in_cell(plot_id):
@@ -130,26 +134,8 @@ def drop_downs(dropdown_spec_id, dropdown_uni_id,
     ], style={'text-align': 'center', 'margin-top': '20px'})
 
 
-app.layout = html.Div([
-    html.H1("Передбачення результатів вступної кампанії 2024", style={'text-align': 'center', 'margin': '20px'}),
-    html.Div("Введіть необхідні дані та натисніть кнопку нижче, щоб отримати прогноз результатів вступної кампанії:",
-             style={'text-align': 'center', 'margin': '10px'}),
-    input_fields_section(),
-    drop_downs('specialities-dropdown', 'universities-dropdown', None, None),
-    button_section(),
-    prediction_output_section(),
-    html.Div(
-        style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center'},
-        children=[
-            html.Div(id='prediction-output-2', hidden=True)
-        ]
-    ),
-    html.Div([dbc.Button("Подивитися статистику за минулі роки",
-                         id="open-button",
-                         n_clicks=0,
-                         style={'text-align': 'center', 'margin': '20px'})],
-             style={'text-align': 'center', 'justify-content': 'center', 'margin-bottom': '10px'}),
-    dbc.Collapse(
+def statistics_collapse():
+    return dbc.Collapse(
         [
             html.Div("Оберіть назву закладу та спеціальність, для яких бажаєте отримати статистику:",
                      style={'text-align': 'center', 'padding-top': '20px'}),
@@ -158,6 +144,27 @@ app.layout = html.Div([
         ],
         id="collapse",
         is_open=False)
+
+
+def button_show_statistics():
+    return html.Div([
+        dbc.Button("Подивитися статистику за минулі роки",
+                   id="open-button",
+                   n_clicks=0,
+                   style={'text-align': 'center', 'margin': '20px'})],
+        style={'text-align': 'center', 'justify-content': 'center', 'margin-bottom': '10px'})
+
+
+app.layout = html.Div([
+    html.H1("Передбачення результатів вступної кампанії 2024", style={'text-align': 'center', 'margin': '20px'}),
+    html.Div("Введіть необхідні дані та натисніть кнопку нижче, щоб отримати прогноз результатів вступної кампанії:",
+             style={'text-align': 'center', 'margin': '10px'}),
+    input_fields_section(),
+    drop_downs('specialities-dropdown', 'universities-dropdown', None, None),
+    button_predict(),
+    prediction_output_section(),
+    button_show_statistics(),
+    statistics_collapse()
 ])
 
 
