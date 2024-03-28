@@ -81,22 +81,19 @@ def button_predict():
 
 def prediction_output_section():
     return html.Div([
-        html.Div(
-            id='prediction-output-container',
-            style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center'},
-            children=[html.Div("✨", id='prediction-output')]
-        ),
-        html.Div(
-            style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center'},
-            children=[html.Div(id='prediction-output-2', hidden=True)]
-        )
+        html.Div([html.Div("✨", id='prediction-output')],
+                 id='prediction-output-container'
+                 ),
+        html.Div([html.Div(id='prediction-output-2', hidden=True)],
+                 style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center'},
+                 )
     ])
 
 
 def plot_in_cell(plot_id):
     return html.Td([
         dcc.Graph(id=plot_id)
-    ], style={'width': '720px', 'height': '300px'})
+    ])
 
 
 def plots_table_section():
@@ -123,12 +120,10 @@ def drop_downs(dropdown_spec_id, dropdown_uni_id,
             dcc.Dropdown(id=dropdown_uni_id,
                          options=[{'label': uni, 'value': uni} for uni in universities_list],
                          value=uni_value,
-                         style={'width': '700px', 'margin': '0px 10px', 'border-radius': '5px'},
                          placeholder='Оберіть заклад вищої освіти'),
             dcc.Dropdown(id=dropdown_spec_id,
                          options=[{'label': spec, 'value': spec} for spec in specialities['spec_full']],
                          value=spec_value,
-                         style={'width': '300px', 'margin': '0px 10px', 'border-radius': '5px'},
                          placeholder='Оберіть спеціальність')
         ], style={'display': 'flex', 'justify-content': 'center'})
     ], style={'text-align': 'center', 'margin-top': '20px'})
@@ -150,19 +145,22 @@ def button_show_statistics():
     return html.Div([
         dbc.Button("Подивитися статистику за минулі роки",
                    id="open-button",
-                   n_clicks=0,
-                   style={'text-align': 'center', 'margin': '20px'})],
+                   n_clicks=0)],
         style={'text-align': 'center', 'justify-content': 'center', 'margin-bottom': '10px'})
 
 
 app.layout = html.Div([
-    html.H1("Передбачення результатів вступної кампанії 2024", style={'text-align': 'center', 'margin': '20px'}),
-    html.Div("Введіть необхідні дані та натисніть кнопку нижче, щоб отримати прогноз результатів вступної кампанії:",
+    html.H1("Прогнозування результатів вступної кампанії"),
+    html.Div(["Введіть необхідні дані та натисніть кнопку нижче, щоб отримати прогноз результатів вступної кампанії",
+              html.Br(),
+              "(актуальні дані можна знайти на ",
+              html.A("сторінці ЄДБО", href="https://vstup.edbo.gov.ua/offers/", target="_blank"),
+              ")"],
              style={'text-align': 'center', 'margin': '10px'}),
     input_fields_section(),
     drop_downs('specialities-dropdown', 'universities-dropdown', None, None),
-    button_predict(),
     prediction_output_section(),
+    button_predict(),
     button_show_statistics(),
     statistics_collapse()
 ])

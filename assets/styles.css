@@ -5,19 +5,36 @@
     height: 45px;
     line-height: 45px;
     border-radius: 45px;
-    margin: 15px 30px;
+    margin-top: 30px;
     font-family: 'Montserrat', sans-serif;
     font-size: 10px;
     text-transform: uppercase;
     text-align: center;
     letter-spacing: 1px;
-    font-weight: 600;
+    font-weight: 750;
     color: #524f4e;
     background: white;
     box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
     transition: .3s;
 }
 
+#open-button {
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 50px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 750;
+    color: #524f4e;
+    background: white;
+    border: black 2px solid;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
+    transition: .3s;
+}
+
+#open-button:hover,
 .floating-button:hover {
     background: #2EE59D;
     box-shadow: 0 15px 20px rgba(46, 229, 157, .4);
@@ -43,9 +60,67 @@
     background-color: rgba(0, 0, 255, 0.05);
     border-top-left-radius: 70px;
     border-top-right-radius: 70px;
-    border: 1px solid grey;
+    border: 1px solid #5d5d5d;
 }
 
 label {
     color: darkgrey;
+}
+
+h1 {
+    text-align: center;
+    margin: 20px;
+    background: linear-gradient(to right, #2EE59D, #16A085);
+    color: white;
+    text-transform: uppercase;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-weight: 700;
+}
+
+body {
+    background: rgba(0, 0, 255, 0.1)
+}
+
+#prediction-output-container,
+#prediction-output-2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#prediction-output-container {
+    margin: 20px;
+}
+
+td {
+    width: 720px;
+    height: 300px;
+}
+
+#universities-dropdown,
+#universities-dropdown-2 {
+    width: 700px;
+    margin: 0 10px;
+    border-radius: 5px;
+}
+
+#specialities-dropdown,
+#specialities-dropdown-2 {
+    width: 300px;
+    margin: 0 10px;
+    border-radius: 5px;
+}
+
+.form-control:focus-within,
+#universities-dropdown:focus-within,
+#universities-dropdown-2:focus-within,
+#specialities-dropdown:focus-within,
+#specialities-dropdown-2:focus-within {
+    box-shadow: 0 0 0 3px rgba(46, 229, 157, 0.48);
+}
+
+.Select-menu-outer {
+    box-shadow: 3px 0 3px rgba(46, 229, 157, 0.48), /* Right shadow */ -3px 0 3px rgba(46, 229, 157, 0.48), /* Left shadow */ 0 3px 3px rgba(46, 229, 157, 0.48); /* Bottom shadow */
 }
