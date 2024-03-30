@@ -30,8 +30,18 @@
   * [GradientBoostingRegressor - підбір оптимальної моделі для різної кількості фічей](https://github.com/Natanius18/diploma/blob/master/data_processing/small_model.ipynb)
   * [Різна кількість фічей з тих, які відомі до фінальних результатів широкого конкурсу](https://github.com/Natanius18/diploma/blob/master/data_processing/test_only_known_features.ipynb)
 - [X] [Метод головних компонент (PCA)](https://github.com/Natanius18/diploma/blob/master/data_processing/PCA.ipynb)
-- [ ] Створення додатка для передбачення
+- [X] [Створення додатка для передбачення](https://github.com/Natanius18/diploma/blob/master/dashboard.py)
 
 ### <a name="results"></a> Результати
 Порівняння результатів навчання моделей:
 ![Порівняння результатів навчання моделей](tools/r2_and_mae.png?raw=true)
+
+#### Демонстрація роботи застосунку
+
+Перегляд статистики за минулі роки:
+![Перегляд статистики за минулі роки](tools/demo_statistics.gif?raw=true)
+
+Прогнозування кількості бюджетних місць:
+![Прогнозування кількості бюджетних місць](tools/demo_prediction.gif?raw=true)
+
+
